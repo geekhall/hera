@@ -15,7 +15,7 @@ class ServerApplicationTests {
     @Autowired
     private WeaponMapper weaponMapper;
 
-    @Test
+//    @Test
     void contextLoads() {
         System.out.println("test weapon mapper");
         List<Weapon> weapons = weaponMapper.selectList(null);
@@ -27,7 +27,7 @@ class ServerApplicationTests {
         System.out.println("======================");
     }
 
-    @Test
+//    @Test
     void weaponTest(){
 
         //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/

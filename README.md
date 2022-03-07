@@ -11,8 +11,25 @@ Hera Spring Boot 2 demo project.
 * MyBatisPlus： 3.5.1
  
 ## 创建数据库
+### 准备工作
+
+开始使用MAMP之前需要使用自带的PMA（phpMyAdmin）网页工具执行以下命令，来修改root用户支持远程登陆，
+
+这样我们就可以通过NaviCat等工具来远程连接管理MySQL了。
 
 ```sql
+update mysql.user set authentication_string=PASSWORD('your_password'),plugin='mysql_native_password' where user='root';
+
+-- （1）修改host允许远程登录
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'your_password' WITH GRANT OPTION;
+
+-- （2）修改验证方式允许密码登录
+update mysql.user set authentication_string=PASSWORD('your_password'),plugin='mysql_native_password' where user='root';
+
+```
+
+```sql
+
 -- 创建数据库
 create database olympians default charset=utf8;
 
@@ -24,17 +41,6 @@ flush privileges;
 -- 为用户添加权限
 GRANT ALL ON olympians.* TO 'zeus'@'%';
 flush privileges;
-
--- 创建数据库
-create database olympians default charset=utf8;
-
--- 创建用户并授权;
-use mysql;
-CREATE USER 'zeus'@'%' IDENTIFIED BY 'yy123456';
-flush privileges;
-
--- 为用户添加权限
-GRANT ALL ON olympians.* TO 'zeus'@'%';
 ```
 
 添加数据
@@ -279,6 +285,17 @@ public class HeraApplication {
 }
 ```
 
+### 设置自定义表名称
+
+可以给实体JavaBean类加上`@TableName("tablename")`注解来自定义实体Bean所对应的数据库表名称。
+
+### 设置自定义主键
+
+可以在实体Bean的属性前加上`@TableId(value="uid")` 注解来自定义主键
+
+### 设置主键自增
+
+`@TableId(value="uid", type=IdType.AUTO)`
 
 
 
