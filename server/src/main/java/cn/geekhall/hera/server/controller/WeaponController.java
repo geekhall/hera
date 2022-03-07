@@ -4,6 +4,7 @@ package cn.geekhall.hera.server.controller;
 import cn.geekhall.hera.server.entity.Weapon;
 import cn.geekhall.hera.server.mapper.WeaponMapper;
 import cn.geekhall.hera.server.service.IWeaponService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,4 +36,5 @@ public class WeaponController {
     public Weapon getWeaponById(@PathVariable("id") Long id){
         return weaponService.getById(id);
     }
+
 }

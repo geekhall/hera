@@ -47,15 +47,24 @@ flush privileges;
 use olympians;
 
 drop table  if EXISTS `h_product`;
-
 CREATE TABLE `h_product`  (
     `id` BIGINT(20) NOT NULL COMMENT '主键ID',
     `name` varchar(255) NOT NULL  COMMENT '商品名称',
     `description` varchar(255) NULL DEFAULT NULL COMMENT '商品描述',
+    `brand` varchar(255) NULL DEFAULT NULL COMMENT '品牌',
+    `is_deleted` tinyint(1) default 0,
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8;
 delete from h_product;
-insert into h_product (`id`, `name`, `description`) values(1,'mbp','Mac book pro');
+insert into h_product (`id`, `name`, `description`, `brand`) values(1,'MacBookPro','Mac book pro', 'Apple');
+insert into h_product (`id`, `name`, `description`, `brand`) values(2,'MacBookAir','Mac book air', 'Apple');
+insert into h_product (`id`, `name`, `description`, `brand`) values(3,'iPhone13','iphone13 pro max', 'Apple');
+insert into h_product (`id`, `name`, `description`, `brand`) values(4,'iMac','iphone13 pro max', 'Apple');
+insert into h_product (`id`, `name`, `description`, `brand`) values(5,'iWatch','iphone13 pro max', 'Apple');
+insert into h_product (`id`, `name`, `description`, `brand`) values(6,'MacMini','iphone13 pro max', 'Apple');
+insert into h_product (`id`, `name`, `description`, `brand`) values(7,'AirPots','iphone13 pro max', 'Apple');
+insert into h_product (`id`, `name`, `description`, `brand`) values(8,'Surface','Surface book', 'Microsoft');
+insert into h_product (`id`, `name`, `description`, `brand`) values(9,'Honor','Honor phone', 'Huawei');
 
 drop table if EXISTS `h_role`;
 create table `h_role`(
@@ -98,6 +107,19 @@ INSERT INTO h_player (id, name, age, email) VALUES
 (4, 'Sandy', 21, 'test4@geekhall.cn'),
 (5, 'Billie', 24, 'test5@geekhall.cn');
 
+
+DROP TABLE IF EXISTS h_article;
+CREATE TABLE h_article
+(
+  id BIGINT(20) NOT NULL COMMENT '主键ID',
+  title VARCHAR(255) NOT NULL  COMMENT '标题',
+  subtitle VARCHAR(255) NOT NULL  COMMENT '副标题',
+  summary TINYTEXT NULL DEFAULT NULL COMMENT '摘要',
+  content TEXT NOT NULL  COMMENT '正文',
+  author_id BIGINT(20) NULL DEFAULT NULL COMMENT '作者ID',
+  create_date BIGINT(20) NULL DEFAULT NULL COMMENT '创建日期',
+  PRIMARY KEY (id) using BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8;
 
 ```
 建表时需要注意，最好不要使用SQL关键字作为表的字段，比如使用describe，desc等的话
@@ -294,5 +316,29 @@ public class HeraApplication {
 
 `@TableId(value="uid", type=IdType.AUTO)`
 
+### @TableField
 
+指定属性所对应的字段名
+
+### @TableLogic
+
+指定属性所对应的字段为逻辑删除字段
+
+### 雪花算法
+
+雪花算法是由Twitter公布的分布式主键生成算法。它能够保证不同表的主键的不重复性，以及相同表的主键有序性。
+
+* 核心思想
+
+1bit 符号位 + 41bit毫秒时间戳 + 10bit机器ID（5bit数据中心+5bit机器id，可部署在1024个节点） + 12bit作为毫秒内流水号（毫秒内4096个ID）
+
+### Wrapper
+
+* Wrapper
+  - AbstractWrapper : 用于查询条件封装，生成sql的where条件
+    - QueryWrapper： 查询条件封装
+    - UpdateWrapper： 更新条件封装
+    - AbstractLambdaWrapper： 使用Lambda语法
+      - LambdaQueryWrapper： 用于Lambda语法使用的查询Wrapper
+      - LambdaUpdateWrapper： Lambda更新封装Wrapper
 

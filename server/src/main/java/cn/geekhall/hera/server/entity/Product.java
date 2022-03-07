@@ -1,5 +1,6 @@
 package cn.geekhall.hera.server.entity;
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -34,6 +35,12 @@ public class Product extends Model<Product> {
     @ApiModelProperty("商品描述")
     private String description;
 
+    @ApiModelProperty("品牌")
+    private String brand;
+
+    @TableLogic  // 标识逻辑删除字段
+    @ApiModelProperty("删除标志")
+    private String isDeleted;
 
     @Override
     public Serializable pkVal() {
