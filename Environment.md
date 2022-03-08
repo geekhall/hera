@@ -52,19 +52,20 @@ CREATE TABLE `h_product`  (
     `name` varchar(255) NOT NULL  COMMENT '商品名称',
     `description` varchar(255) NULL DEFAULT NULL COMMENT '商品描述',
     `brand` varchar(255) NULL DEFAULT NULL COMMENT '品牌',
+    `price` decimal(17,2) DEFAULT NULL COMMENT '价格',
     `is_deleted` tinyint(1) default 0,
     PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8;
 delete from h_product;
-insert into h_product (`id`, `name`, `description`, `brand`) values(1,'MacBookPro','Mac book pro', 'Apple');
-insert into h_product (`id`, `name`, `description`, `brand`) values(2,'MacBookAir','Mac book air', 'Apple');
-insert into h_product (`id`, `name`, `description`, `brand`) values(3,'iPhone13','iphone13 pro max', 'Apple');
-insert into h_product (`id`, `name`, `description`, `brand`) values(4,'iMac','iphone13 pro max', 'Apple');
-insert into h_product (`id`, `name`, `description`, `brand`) values(5,'iWatch','iphone13 pro max', 'Apple');
-insert into h_product (`id`, `name`, `description`, `brand`) values(6,'MacMini','iphone13 pro max', 'Apple');
-insert into h_product (`id`, `name`, `description`, `brand`) values(7,'AirPots','iphone13 pro max', 'Apple');
-insert into h_product (`id`, `name`, `description`, `brand`) values(8,'Surface','Surface book', 'Microsoft');
-insert into h_product (`id`, `name`, `description`, `brand`) values(9,'Honor','Honor phone', 'Huawei');
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(1,'MacBookPro','Mac book pro', 'Apple', 15000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(2,'MacBookAir','Mac book air', 'Apple', 8000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(3,'iPhone13','iphone13 pro max', 'Apple', 9800.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(4,'iMac','iMac', 'Apple', 12000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(5,'iWatch','iWatch', 'Apple', 4000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(6,'MacMini','MacMini', 'Apple', 6000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(7,'AirPots','Air Pots Pro', 'Apple', 2000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(8,'Surface','Surface book', 'Microsoft', 8000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(9,'Honor','Honor phone', 'Huawei', 2000.00);
 
 drop table if EXISTS `h_role`;
 create table `h_role`(

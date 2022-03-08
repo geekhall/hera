@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -18,10 +18,11 @@ import java.io.Serializable;
  * @author yiny
  * @since 2022-03-06
  */
-@Getter
-@Setter
+@Data
 @TableName("h_product")
 @ApiModel(value = "Product对象", description = "")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product extends Model<Product> {
 
     private static final long serialVersionUID = 1L;
@@ -38,9 +39,12 @@ public class Product extends Model<Product> {
     @ApiModelProperty("品牌")
     private String brand;
 
+    @ApiModelProperty("价格")
+    private BigDecimal price;
+
     @TableLogic  // 标识逻辑删除字段
     @ApiModelProperty("删除标志")
-    private String isDeleted;
+    private Boolean isDeleted;
 
     @Override
     public Serializable pkVal() {
