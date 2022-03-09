@@ -3,8 +3,11 @@ package cn.geekhall.hera.server.controller;
 
 import cn.geekhall.hera.server.entity.Product;
 import cn.geekhall.hera.server.mapper.ProductMapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>ß
@@ -33,6 +36,15 @@ public class ProductController {
     public Product getProduct(@PathVariable("id") Long id) {
         System.out.println("getProduct called , id = " + id);
         return productMapper.selectById(id);
+    }
+
+    @ResponseBody
+    @RequestMapping("/")
+    public List<Object> products() {
+        System.out.println("getProduct called");
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.isNotNull("brand");
+        return productMapper.selectObjs(queryWrapper);
     }
 
     public void deleteProduct(@PathVariable("id") Long id) {
