@@ -10,7 +10,9 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>ß
@@ -108,6 +110,7 @@ public class ProductController {
 
     /**
      * select * from h_product where brand like '%App%' and (price > 5000 or description is null)
+     * 条件的优先级，lambda中的条件优先执行。
      */
     @RequestMapping("/update")
     public void updateProduct(){
@@ -119,8 +122,32 @@ public class ProductController {
         productMapper.update(product, productQueryWrapper);
     }
 
+    /**
+     * 查询指定列
+     * http://localhost:8080/server/product/getmap/Apple
+     */
+    @ResponseBody
+    @RequestMapping("/getmap/{brand}")
+    public List<Map<String, Object>> getMap(@PathVariable("brand") String brand){
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+        queryWrapper.select("name", "brand", "price");
+        queryWrapper.eq("brand", brand);
+        List<Map<String, Object>> products = productMapper.selectMaps(queryWrapper);
+        products.forEach(System.out::println);
+        return products;
+    }
 
-    public void updateProductWithOrCondition(){
-        UpdateWrapper<Product> updateWrapper = new UpdateWrapper<>();
+    /**
+     * http://localhost:8080/server/product/pricegt/10000
+     */
+    @ResponseBody
+    @RequestMapping("/pricegt/{price}")
+    public List<Product> priceGt(@PathVariable("price") BigDecimal price){
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
+//        String sql = String.format("select id from t_product where price >= %d", price);
+        queryWrapper.inSql("id" , "select id from h_product where price >= 10000");
+        List<Product> products = productMapper.selectList(queryWrapper);
+        products.forEach(System.out::println);
+        return products;
     }
 }
