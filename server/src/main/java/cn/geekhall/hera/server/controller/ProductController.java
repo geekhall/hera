@@ -7,6 +7,8 @@ import cn.geekhall.hera.server.service.IProductService;
 import cn.geekhall.hera.server.service.impl.ProductServiceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import freemarker.template.utility.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -147,6 +149,27 @@ public class ProductController {
 //        String sql = String.format("select id from t_product where price >= %d", price);
         queryWrapper.inSql("id" , "select id from h_product where price >= 10000");
         List<Product> products = productMapper.selectList(queryWrapper);
+        products.forEach(System.out::println);
+        return products;
+    }
+
+    @ResponseBody
+    @RequestMapping("/{name}")
+    public List<Product> test09(@PathVariable("name") String name){
+        Integer priceBegin = 5000;
+        Integer priceEnd = 10000;
+        QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotBlank(name)) {
+            productQueryWrapper.like("name" , name);
+        }
+        if (priceBegin != null) {
+            productQueryWrapper.ge("price", priceBegin);
+        }
+
+        if (priceEnd != null) {
+            productQueryWrapper.le("price", priceEnd);
+        }
+        List<Product> products = productMapper.selectList(productQueryWrapper);
         products.forEach(System.out::println);
         return products;
     }
