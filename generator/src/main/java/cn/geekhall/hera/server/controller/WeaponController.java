@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author yiny
- * @since 2022-03-06
+ * @since 2022-03-08
  */
 @RestController
 @RequestMapping("/server/weapon")

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author yiny
- * @since 2022-03-06
+ * @since 2022-03-08
  */
 @Mapper
 public interface WeaponMapper extends BaseMapper<Weapon> {
