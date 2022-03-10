@@ -42,7 +42,9 @@ public class ProductController {
     @RequestMapping("/{id}")
     public Product getProduct(@PathVariable("id") Long id) {
         System.out.println("getProduct called , id = " + id);
-        return productMapper.selectById(id);
+        Product product = productMapper.selectById(id);
+        System.out.println(product);
+        return product;
     }
 
     @ResponseBody
@@ -154,7 +156,7 @@ public class ProductController {
     }
 
     @ResponseBody
-    @RequestMapping("/{name}")
+    @RequestMapping("/name/{name}")
     public List<Product> test09(@PathVariable("name") String name){
         Integer priceBegin = 5000;
         Integer priceEnd = 10000;
