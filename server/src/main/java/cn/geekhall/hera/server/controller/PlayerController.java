@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2022-03-06
  */
 @RestController
-@RequestMapping("/server/player")
+@RequestMapping("/player")
 public class PlayerController {
 
 }

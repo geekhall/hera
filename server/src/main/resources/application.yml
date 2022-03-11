@@ -5,3 +5,6 @@ spring:
     type: com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
     username: zeus
     password: yy123456
+
+server:
+  port: 8888

@@ -25,7 +25,7 @@ import java.util.Map;
  * @since 2022-03-06
  */
 @RestController
-@RequestMapping("/server/product")
+@RequestMapping("/product")
 public class ProductController {
 
     @Autowired
@@ -37,6 +37,11 @@ public class ProductController {
         return "Hello from hera product";
     }
 
+    @ResponseBody
+    @RequestMapping("/all")
+    public List<Product> all(){
+        return productService.list();
+    }
 
     @ResponseBody
     @RequestMapping("/{id}")
@@ -60,7 +65,7 @@ public class ProductController {
     }
 
     /**
-     * http://localhost:8080/server/product/order
+     * http://localhost:8080/product/order
      * @return
      */
     @ResponseBody
@@ -128,7 +133,7 @@ public class ProductController {
 
     /**
      * 查询指定列
-     * http://localhost:8080/server/product/getmap/Apple
+     * http://localhost:8080/product/getmap/Apple
      */
     @ResponseBody
     @RequestMapping("/getmap/{brand}")
@@ -142,7 +147,8 @@ public class ProductController {
     }
 
     /**
-     * http://localhost:8080/server/product/pricegt/10000
+     * http://localhost:8080/product/pricegt/10000
+     * http://localhost:8080/product/pricegt/10000
      */
     @ResponseBody
     @RequestMapping("/pricegt/{price}")
