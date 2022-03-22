@@ -9,12 +9,12 @@
         <result column="description" property="description" />
         <result column="brand" property="brand" />
         <result column="price" property="price" />
-        <result column="is_deleted" property="isDeleted" />
+<!--        <result column="is_deleted" property="isDeleted" />-->
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, description, brand, price, is_deleted
+        id, name, description, brand, price
     </sql>
 
 </mapper>
