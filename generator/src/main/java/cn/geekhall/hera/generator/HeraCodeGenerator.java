@@ -23,10 +23,11 @@ import java.util.List;
 public class HeraCodeGenerator {
     public static void main(String[] args) {
         List<String> includes = new ArrayList<String>();
-        includes.add("h_role");
-        includes.add("h_player");
-        includes.add("h_product");
-        includes.add("h_weapon");
+        includes.add("h_user");
+//        includes.add("h_role");
+//        includes.add("h_player");
+//        includes.add("h_product");
+//        includes.add("h_weapon");
         StrategyConfig strategyConfig = new StrategyConfig.Builder()
                 .entityBuilder()
                 .disableSerialVersionUID()

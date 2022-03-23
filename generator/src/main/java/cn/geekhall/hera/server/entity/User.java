@@ -3,6 +3,7 @@ package cn.geekhall.hera.server.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -14,13 +15,13 @@ import lombok.Setter;
  * </p>
  *
  * @author yiny
- * @since 2022-03-08
+ * @since 2022-03-23
  */
 @Getter
 @Setter
-@TableName("h_player")
-@ApiModel(value = "Player对象", description = "")
-public class Player extends Model<Player> {
+@TableName("h_user")
+@ApiModel(value = "User对象", description = "")
+public class User extends Model<User> {
 
     private static final long serialVersionUID = 1L;
 
@@ -35,6 +36,12 @@ public class Player extends Model<Player> {
 
     @ApiModelProperty("邮箱")
     private String email;
+
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createTime;
+
+    @ApiModelProperty("修改时间")
+    private LocalDateTime updateTime;
 
 
     @Override

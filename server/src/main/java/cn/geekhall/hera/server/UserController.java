@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
  * </p>
  *
  * @author yiny
- * @since 2022-03-08
+ * @since 2022-03-23
  */
 @RestController
-@RequestMapping("/server/player")
-public class PlayerController {
+@RequestMapping("/server/user")
+public class UserController {
 
 }

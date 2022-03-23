@@ -3,7 +3,6 @@ package cn.geekhall.hera.server.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -15,32 +14,27 @@ import lombok.Setter;
  * </p>
  *
  * @author yiny
- * @since 2022-03-08
+ * @since 2022-03-23
  */
 @Getter
 @Setter
-@TableName("h_product")
-@ApiModel(value = "Product对象", description = "")
-public class Product extends Model<Product> {
+@TableName("h_user")
+@ApiModel(value = "User对象", description = "")
+public class User extends Model<User> {
 
     private static final long serialVersionUID = 1L;
 
     @ApiModelProperty("主键ID")
     private Long id;
 
-    @ApiModelProperty("商品名称")
+    @ApiModelProperty("姓名")
     private String name;
 
-    @ApiModelProperty("商品描述")
-    private String description;
+    @ApiModelProperty("年龄")
+    private Integer age;
 
-    @ApiModelProperty("品牌")
-    private String brand;
-
-    @ApiModelProperty("价格")
-    private BigDecimal price;
-
-    private Boolean isDeleted;
+    @ApiModelProperty("邮箱")
+    private String email;
 
 
     @Override

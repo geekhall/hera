@@ -1,6 +1,6 @@
 package cn.geekhall.hera.server.service;
 
-import cn.geekhall.hera.server.entity.Role;
+import cn.geekhall.hera.server.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author yiny
- * @since 2022-03-08
+ * @since 2022-03-23
  */
-public interface IRoleService extends IService<Role> {
+public interface IUserService extends IService<User> {
 
 }

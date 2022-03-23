@@ -1,6 +1,6 @@
 package cn.geekhall.hera.server.mapper;
 
-import cn.geekhall.hera.server.entity.Role;
+import cn.geekhall.hera.server.entity.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -10,9 +10,9 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author yiny
- * @since 2022-03-08
+ * @since 2022-03-23
  */
 @Mapper
-public interface RoleMapper extends BaseMapper<Role> {
+public interface UserMapper extends BaseMapper<User> {
 
 }
