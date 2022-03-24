@@ -1,6 +1,8 @@
 package cn.geekhall.hera.server;
 
+import cn.geekhall.hera.server.entity.User;
 import cn.geekhall.hera.server.entity.Weapon;
+import cn.geekhall.hera.server.mapper.UserMapper;
 import cn.geekhall.hera.server.mapper.WeaponMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,45 @@ class ServerApplicationTests {
     @Autowired
     private WeaponMapper weaponMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    /**
+     * 添加用户测试
+     */
+    @Test
+    public void addUser(){
+        User user = new User();
+        user.setName("King");
+        user.setAge(30);
+        user.setEmail("eric@geekhall.com");
+        int insert = userMapper.insert(user);
+        System.out.println("insert : " + insert);
+    }
+
+    /**
+     * 普通更新测试
+     */
+    @Test
+    public void updateUser(){
+        User user = new User();
+        user.setId(1506862754944806914L);
+        user.setEmail("test11@geekhall.com");
+        int insert = userMapper.updateById(user);
+        System.out.println("insert : " + insert);
+    }
+
+    /**
+     * 乐观锁更新测试
+     */
+    @Test
+    public void testOptimisticLocker(){
+        // 根据ID查询数据
+        User user = userMapper.selectById(1506862754944806914L);
+        user.setAge(100);
+        userMapper.updateById(user);
+    }
+
 //    @Test
     void contextLoads() {
         System.out.println("test weapon mapper");
@@ -25,6 +66,14 @@ class ServerApplicationTests {
             System.out.println(weapon);
         }
         System.out.println("======================");
+    }
+
+    /**
+     * 分页查询测试
+     */
+    @Test
+    void testPage(){
+
     }
 
 //    @Test
