@@ -5,6 +5,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>generator</module>
+        <module>service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -19,22 +20,34 @@
     <description>hera</description>
     <properties>
         <java.version>1.8</java.version>
+        <spring-framework.version>2.6.4</spring-framework.version>
+        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <mysql.version>8.0.28</mysql.version>
+        <lombok.version>1.18.22</lombok.version>
+        <swagger-core.version>2.0.0-rc2</swagger-core.version>
+        <swagger-annotations.version>1.5.22</swagger-annotations.version>
+        <freemarker.version>2.3.31</freemarker.version>
     </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-        </dependency>
-    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <scope>test</scope>
+                <version>${spring-framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring-framework.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

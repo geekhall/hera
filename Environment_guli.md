@@ -1,4 +1,23 @@
 # 谷粒商城 Environment
+## 工程结构
+
+### 父工程
+
+管理依赖版本和公共依赖
+
+### 子模块
+gateway：API网关
+service：
+  - acl：用户权限管理API接口服务（用户管理、角色管理、权限管理等）
+  - cms：CMS-API接口
+  - edu：教学相关API接口
+  - sms：短信API接口
+  - blog：博客API接口
+  - order：订单API接口
+  - oss：阿里云OSS-API接口
+  - statistics：统计报表API接口
+  - ucenter：会员API接口
+  - vod：视频点播API接口
 
 ## 后台
 
@@ -195,3 +214,8 @@ public class UserMetaObjectHandler implements MetaObjectHandler {
 
 }
 ```
+
+
+### 性能分析插件
+
+MybatisPlus3.2.0版本删除，官方推荐使用第三方工具分析

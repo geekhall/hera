@@ -24,7 +24,7 @@ class ServerApplicationTests {
     /**
      * 添加用户测试
      */
-    @Test
+//    @Test
     public void addUser(){
         User user = new User();
         user.setName("King");
@@ -37,7 +37,7 @@ class ServerApplicationTests {
     /**
      * 普通更新测试
      */
-    @Test
+//    @Test
     public void updateUser(){
         User user = new User();
         user.setId(1506862754944806914L);
@@ -49,10 +49,10 @@ class ServerApplicationTests {
     /**
      * 乐观锁更新测试
      */
-    @Test
+//    @Test
     public void testOptimisticLocker(){
         // 根据ID查询数据
-        User user = userMapper.selectById(1506862754944806914L);
+        User user = userMapper.selectById(2L);
         user.setAge(100);
         userMapper.updateById(user);
     }
@@ -72,7 +72,7 @@ class ServerApplicationTests {
     /**
      * 分页查询测试
      */
-    @Test
+//    @Test
     void testPage(){
         // 1. 创建page对象
         // 2. 传入两个参数：当前页和每页显示的记录数
@@ -92,12 +92,17 @@ class ServerApplicationTests {
     /**
      * 逻辑删除测试
      */
-    @Test
+//    @Test
     public void logicDeleteTest(){
         int result = userMapper.deleteById(1L);
         System.out.println(result);
     }
 
+//    @Test
+    public void selectAllUserTest(){
+        List<User> users = userMapper.selectList(null);
+        users.forEach(System.out::println);
+    }
 //    @Test
     void weaponTest(){
 
