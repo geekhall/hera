@@ -50,7 +50,7 @@ select * from h_user;
 ```
 
 
-## 配置MybatisPlus 的自动填充功能
+### 配置MybatisPlus 的自动填充功能
 
 数据库添加插入和更新字段：
 ```sql
@@ -111,41 +111,49 @@ public class UserMetaObjectHandler implements MetaObjectHandler {
 * LocalDate 对应 date
 * LocalDateTime 对应 timestamp或者 datetime类型
 
+### 配置MybatisPlus分页插件
 
-### 乐观锁
-
-数据库表中添加`version`字段
-
-```sql
-create table h_user{
-    -- ...
-    version int(11) null default null comment '版本号',
-}
-
-```
-
-对应实体类属性添加版本号属性
-
-```java
-public class User{
-    // ...
-    @Version
-    @ApiModelProperty("版本号")
-    private Integer version;    
-}
-```
-
-配置乐观锁插件
-
-SpringBoot 注解方式：
 ```java
 @Configuration
 public class MybatisPlusConfig {
+    /**
+     * 插件配置
+     * @return 拦截器
+     */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        // 创建并配置分页插件
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+        paginationInnerInterceptor.setDbType(DbType.MYSQL);
+        paginationInnerInterceptor.setOverflow(true);
+        // 添加分页插件
+        interceptor.addInnerInterceptor(paginationInnerInterceptor);
         return interceptor;
+    }
+}
+```
+
+测试
+
+```java
+@SpringBootTest
+class ServerApplicationTests {
+    @Test
+    void testPage(){
+        // 1. 创建page对象
+        // 2. 传入两个参数：当前页和每页显示的记录数
+        Page<User> page = new Page<>(1, 3);
+        // 调用分页查询的方法
+        userMapper.selectPage(page, null);
+
+        System.out.println(page.getPages());    // 总页数
+        System.out.println(page.getCurrent());  // 当前页
+        System.out.println(page.getRecords());  // 当前页内容
+        System.out.println(page.getSize());     // 每页显示的记录数
+        System.out.println(page.getTotal());    // 总记录数
+        System.out.println(page.hasNext());     // 有下一页
+        System.out.println(page.hasPrevious()); // 有上一页
     }
 }
 ```

@@ -4,6 +4,7 @@ import cn.geekhall.hera.server.entity.User;
 import cn.geekhall.hera.server.entity.Weapon;
 import cn.geekhall.hera.server.mapper.UserMapper;
 import cn.geekhall.hera.server.mapper.WeaponMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -73,7 +74,19 @@ class ServerApplicationTests {
      */
     @Test
     void testPage(){
+        // 1. 创建page对象
+        // 2. 传入两个参数：当前页和每页显示的记录数
+        Page<User> page = new Page<>(1, 3);
+        // 调用分页查询的方法
+        userMapper.selectPage(page, null);
 
+        System.out.println(page.getPages());    // 总页数
+        System.out.println(page.getCurrent());  // 当前页
+        System.out.println(page.getRecords());
+        System.out.println(page.getSize()); // 每页显示的记录数
+        System.out.println(page.getTotal()); // 总记录数
+        System.out.println(page.hasNext());
+        System.out.println(page.hasPrevious());
     }
 
 //    @Test
