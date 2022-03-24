@@ -1,9 +1,6 @@
 package cn.geekhall.hera.server.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -53,6 +50,10 @@ public class User extends Model<User> {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+    @TableLogic
+    @ApiModelProperty("逻辑删除")
+    @TableField(fill = FieldFill.INSERT)
+    private Boolean deleted;
 
     @Override
     public Serializable pkVal() {

@@ -15,19 +15,7 @@ create table h_user
     version int(11) null default null comment '版本号',
     create_time datetime comment '创建时间',
     update_time datetime comment '修改时间',
-    PRIMARY key (id)
-);
-
-
-drop table if exists `h_user`;
-create table h_user
-(
-    id BIGINT(20) not null comment '主键ID',
-    name VARCHAR(30) null default null comment '姓名',
-    age int(11) null default null comment '年龄',
-    email varchar(50) null default null comment '邮箱',
-    create_time datetime comment '创建时间',
-    update_time datetime comment '修改时间',
+    deleted tinyint(1) default 0 comment '逻辑删除',
     PRIMARY key (id)
 );
 
@@ -42,9 +30,9 @@ insert into h_user (id, name, age, email, create_time) values
 
 select * from h_user;
 
+-- 也可以使用下面的语句修改表添加逻辑删除字段
+-- alter table `h_user` add column `deleted` tinyint(1) default 0 comment '逻辑删除'
 
-
-select * from h_user;
 
 
 ```
@@ -58,7 +46,7 @@ create table t_xxx
 (
 -- ...
     create_time datetime comment '创建时间',
-    update_time datetime comment '修改时间',
+    update_time datetime comment '修改时间'
 -- ...
 )
 ```
@@ -155,5 +143,55 @@ class ServerApplicationTests {
         System.out.println(page.hasNext());     // 有下一页
         System.out.println(page.hasPrevious()); // 有上一页
     }
+}
+```
+
+
+### 添加逻辑删除功能
+
+表中添加逻辑删除字段
+
+```sql
+alter table `h_user` add column `deleted` tinyint default 0 comment '逻辑删除';
+```
+
+配置启用逻辑删除：
+
+```yaml
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted # 全局逻辑删除的实体字段名（since 3.3.0，配置后实体bean类可以不配置@TableLogic注解）
+      logic-delete-value: 1       # 逻辑已删除值（默认为1）
+      logic-not-delete-value: 0   # 逻辑未删除值（默认为0）
+```
+
+实体类添加逻辑删除字段，并添加`@TableLogic` 注解
+
+```java
+class User{
+    // ...
+    @TableLogic
+    @ApiModelProperty("逻辑删除")
+    @TableField(fill = FieldFill.INSERT)
+    private Integer deleted;
+}
+```
+
+元对象处理器接口添加`deleted`字段的默认值
+
+```java
+@Component
+public class UserMetaObjectHandler implements MetaObjectHandler {
+    /**
+     * 使用MybatisPlus添加时，该方法会被调用
+     * @param metaObject 元数据对象
+     */
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        // ...
+        this.setFieldValByName("deleted", 0, metaObject);
+    }
+
 }
 ```

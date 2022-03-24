@@ -89,6 +89,15 @@ class ServerApplicationTests {
         System.out.println(page.hasPrevious());
     }
 
+    /**
+     * 逻辑删除测试
+     */
+    @Test
+    public void logicDeleteTest(){
+        int result = userMapper.deleteById(1L);
+        System.out.println(result);
+    }
+
 //    @Test
     void weaponTest(){
 

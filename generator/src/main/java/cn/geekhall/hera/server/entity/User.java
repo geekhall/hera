@@ -15,7 +15,7 @@ import lombok.Setter;
  * </p>
  *
  * @author yiny
- * @since 2022-03-23
+ * @since 2022-03-24
  */
 @Getter
 @Setter
@@ -37,11 +37,17 @@ public class User extends Model<User> {
     @ApiModelProperty("邮箱")
     private String email;
 
+    @ApiModelProperty("版本号")
+    private Integer version;
+
     @ApiModelProperty("创建时间")
     private LocalDateTime createTime;
 
     @ApiModelProperty("修改时间")
     private LocalDateTime updateTime;
+
+    @ApiModelProperty("逻辑删除")
+    private Boolean deleted;
 
 
     @Override
