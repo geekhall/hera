@@ -26,6 +26,7 @@ class ServerApplicationTests {
      */
 //    @Test
     public void addUser(){
+
         User user = new User();
         user.setName("King");
         user.setAge(30);
