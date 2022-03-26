@@ -1,156 +1,211 @@
-## 工具及软件版本
+# 工程环境
+## 工程结构
 
-* IDE: IDEA 2021.2
-* JDK: JDK8+
-* 构建工具： IDEA自带 Maven 3.6.3
-* MySQL：MAMP MySQL 5.7.34
-* SpringBoot ： 2.6.4
-* MyBatisPlus： 3.5.1
+### 父工程
 
-## 创建数据库
-### 准备工作
-
-开始使用MAMP之前需要使用自带的PMA（phpMyAdmin）网页工具执行以下命令，来修改root用户支持远程登陆，
-
-这样我们就可以通过NaviCat等工具来远程连接管理MySQL了。
-
-```sql
-update mysql.user set authentication_string=PASSWORD('your_password'),plugin='mysql_native_password' where user='root';
-
--- （1）修改host允许远程登录
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'your_password' WITH GRANT OPTION;
-
--- （2）修改验证方式允许密码登录
-update mysql.user set authentication_string=PASSWORD('your_password'),plugin='mysql_native_password' where user='root';
-
-```
-
-```sql
-
--- 创建数据库
-create database olympians default charset=utf8;
-
--- 创建用户并授权;
-use mysql;
-CREATE USER 'zeus'@'%' IDENTIFIED BY 'yy123456';
-flush privileges;
-
--- 为用户添加权限
-GRANT ALL ON olympians.* TO 'zeus'@'%';
-flush privileges;
-```
-
-添加数据
-
-```sql
-
-use olympians;
-
-drop table  if EXISTS `h_product`;
-CREATE TABLE `h_product`  (
-    `id` BIGINT(20) NOT NULL COMMENT '主键ID',
-    `name` varchar(255) NOT NULL  COMMENT '商品名称',
-    `description` varchar(255) NULL DEFAULT NULL COMMENT '商品描述',
-    `brand` varchar(255) NULL DEFAULT NULL COMMENT '品牌',
-    `price` decimal(17,2) DEFAULT NULL COMMENT '价格',
-    `is_deleted` tinyint(1) default 0,
-    PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8;
-delete from h_product;
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(1,'MacBookPro','Mac book pro', 'Apple', 15000.00);
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(2,'MacBookAir','Mac book air', 'Apple', 8000.00);
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(3,'iPhone13','iphone13 pro max', 'Apple', 9800.00);
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(4,'iMac','iMac', 'Apple', 12000.00);
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(5,'iWatch','iWatch', 'Apple', 4000.00);
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(6,'MacMini','MacMini', 'Apple', 6000.00);
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(7,'AirPots','Air Pots Pro', 'Apple', 2000.00);
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(8,'Surface','Surface book', 'Microsoft', 8000.00);
-insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(9,'Honor','Honor phone', 'Huawei', 2000.00);
-
-drop table if EXISTS `h_role`;
-create table `h_role`(
-   `id` BIGINT(20) NOT NULL COMMENT '主键ID',
-   `name` varchar(255) NOT NULL  COMMENT '角色名称',
-   `description` varchar(255) NULL DEFAULT NULL COMMENT '角色描述',
-	PRIMARY key (`id`) using BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8;
-delete from h_role;
-insert into h_role(`id`, `name`, `description`) values(1, 'Ares','战神');
-
-
-drop table if exists `h_weapon`;
-create table `h_weapon`(
- `id` BIGINT(20) NOT NULL COMMENT '主键ID',
- `name` varchar(255) NOT NULL  COMMENT '武器名称',
- `description` varchar(255) NULL DEFAULT NULL COMMENT '武器描述',
-  PRIMARY key (`id`) using BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8;
-delete from h_weapon;
-insert into h_weapon(`id`,`name`,`description`) values(1, '雷神之锤','雷神Thor的锤子');
-
-
-DROP TABLE IF EXISTS h_player;
-CREATE TABLE h_player
-(
-    id BIGINT(20) NOT NULL COMMENT '主键ID',
-    name VARCHAR(30) NOT NULL  COMMENT '姓名',
-    age INT(11) NULL DEFAULT NULL COMMENT '年龄',
-    email VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
-    PRIMARY KEY (id) using BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8;
-
-DELETE FROM h_player;
-
-INSERT INTO h_player (id, name, age, email) VALUES
-(1, 'Jone', 18, 'test1@geekhall.cn'),
-(2, 'Jack', 20, 'test2@geekhall.cn'),
-(3, 'Tom', 28, 'test3@geekhall.cn'),
-(4, 'Sandy', 21, 'test4@geekhall.cn'),
-(5, 'Billie', 24, 'test5@geekhall.cn');
-
-
-DROP TABLE IF EXISTS h_article;
-CREATE TABLE h_article
-(
-  id BIGINT(20) NOT NULL COMMENT '主键ID',
-  title VARCHAR(255) NOT NULL  COMMENT '标题',
-  subtitle VARCHAR(255) NOT NULL  COMMENT '副标题',
-  summary TINYTEXT NULL DEFAULT NULL COMMENT '摘要',
-  content TEXT NOT NULL  COMMENT '正文',
-  author_id BIGINT(20) NULL DEFAULT NULL COMMENT '作者ID',
-  create_date BIGINT(20) NULL DEFAULT NULL COMMENT '创建日期',
-  PRIMARY KEY (id) using BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8;
-
-```
-建表时需要注意，最好不要使用SQL关键字作为表的字段，比如使用describe，desc等的话
-会报SQL语句错误。
-
-## 创建工程
-
-### 创建父工程
-
-创建SpringBoot2Starter父工程并添加依赖：
-
+管理依赖版本和公共依赖，使用pom类型管理依赖的版本
 ```xml
-<dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-devtools</artifactId>
-    </dependency>    
-</dependencies>
+<packaging>pom</packaging>
+<dependencyManagement>
+ 
+</dependencyManagement>
 ```
 
-删除src等文件夹
+### 子模块
+gateway：API网关
+service：
+  - acl：用户权限管理API接口服务（用户管理、角色管理、权限管理等）
+  - cms：CMS-API接口
+  - edu：教学相关API接口
+  - sms：短信API接口
+  - blog：博客API接口
+  - order：订单API接口
+  - oss：阿里云OSS-API接口
+  - statistics：统计报表API接口
+  - ucenter：会员API接口
+  - vod：视频点播API接口
+
+## 后台
+
+### DB SQL
+参考`database.sql`文件
+
+
+
+### 添加MySQL连接配置
+
+* 驱动名
+  -（SpringBoot2.0，内置JDBC5驱动）：com.mysql.jdbc.Driver
+  -（SpringBoot2.1以上，内置JDBC8驱动）：com.mysql.cj.jdbc.Driver
+* URL
+    - MySQL 5.7 ：jdbc:mysql://localhost:3316/olympians?characterEncoding=UTF-8&useSSL=false
+    - MySQL 8.0 ：jdbc:mysql://localhost:3316/olympians?userUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+
+否则会报时区错误
+
+### 配置MybatisPlus 的自动填充功能
+
+数据库添加插入和更新字段：
+```sql
+create table t_xxx
+(
+-- ...
+    create_time datetime comment '创建时间',
+    update_time datetime comment '修改时间'
+-- ...
+)
+```
+
+实体Bean上添加注解
+
+```java
+class User{
+    // ...
+    @ApiModelProperty("创建时间")
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    @ApiModelProperty("修改时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+}
+```
+
+新增Handler实现类实现`MetaObjectHandler`接口，
+注意这里setFieldValByName方法的第一个参数应该是实体bean的字段名，而不是数据库表的字段名。
+
+```java
+@Component
+public class UserMetaObjectHandler implements MetaObjectHandler {
+    /**
+     * 使用MybatisPlus添加时，该方法会被调用
+     * @param metaObject 元数据对象
+     */
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
+        this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
+    }
+
+    /**
+     * 使用MybatisPlus修改时，该方法会被调用
+     * @param metaObject 元数据对象
+     */
+    @Override
+    public void updateFill(MetaObject metaObject) {
+        this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
+    }
+}
+```
+
+这里注意数据库的类型和实体Bean的类型需要对应上，不能混用，否则会爆类型转换错误。
+
+* LocalTime 对应 time
+* LocalDate 对应 date
+* LocalDateTime 对应 timestamp或者 datetime类型
+
+### 配置MybatisPlus分页插件
+
+```java
+@Configuration
+public class MybatisPlusConfig {
+    /**
+     * 插件配置
+     * @return 拦截器
+     */
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 创建并配置分页插件
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+        paginationInnerInterceptor.setDbType(DbType.MYSQL);
+        paginationInnerInterceptor.setOverflow(true);
+        // 添加分页插件
+        interceptor.addInnerInterceptor(paginationInnerInterceptor);
+        return interceptor;
+    }
+}
+```
+
+测试
+
+```java
+@SpringBootTest
+class ServerApplicationTests {
+    @Test
+    void testPage(){
+        // 1. 创建page对象
+        // 2. 传入两个参数：当前页和每页显示的记录数
+        Page<User> page = new Page<>(1, 3);
+        // 调用分页查询的方法
+        userMapper.selectPage(page, null);
+
+        System.out.println(page.getPages());    // 总页数
+        System.out.println(page.getCurrent());  // 当前页
+        System.out.println(page.getRecords());  // 当前页内容
+        System.out.println(page.getSize());     // 每页显示的记录数
+        System.out.println(page.getTotal());    // 总记录数
+        System.out.println(page.hasNext());     // 有下一页
+        System.out.println(page.hasPrevious()); // 有上一页
+    }
+}
+```
+
+
+### 添加逻辑删除功能
+
+表中添加逻辑删除字段
+
+```sql
+alter table `h_user` add column `deleted` tinyint default 0 comment '逻辑删除';
+```
+
+配置启用逻辑删除：
+
+```yaml
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted # 全局逻辑删除的实体字段名（since 3.3.0，配置后实体bean类可以不配置@TableLogic注解）
+      logic-delete-value: 1       # 逻辑已删除值（默认为1）
+      logic-not-delete-value: 0   # 逻辑未删除值（默认为0）
+```
+
+实体类添加逻辑删除字段，并添加`@TableLogic` 注解
+
+```java
+class User{
+    // ...
+    @TableLogic
+    @ApiModelProperty("逻辑删除")
+    @TableField(fill = FieldFill.INSERT)
+    private Integer deleted;
+}
+```
+
+元对象处理器接口添加`deleted`字段的默认值
+
+```java
+@Component
+public class UserMetaObjectHandler implements MetaObjectHandler {
+    /**
+     * 使用MybatisPlus添加时，该方法会被调用
+     * @param metaObject 元数据对象
+     */
+    @Override
+    public void insertFill(MetaObject metaObject) {
+        // ...
+        this.setFieldValByName("deleted", 0, metaObject);
+    }
+
+}
+```
+
+
+### 性能分析插件
+
+MybatisPlus3.2.0版本删除，官方推荐使用第三方工具分析
+
 
 ### 创建代码生成模块generator
 
@@ -209,139 +264,3 @@ CREATE TABLE h_article
 ```
 
 ### 添加Generator代码
-
-
-创建SpringBoot工程，引入Spring Boot Starter工程
-```xml
-<parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.6.4</version>
-    <relativePath/> <!-- lookup parent from repository -->
-</parent>
-```
-
-引入依赖：
-* spring-boot-starter
-* spring-boot-starter-test
-* spring-boot-starter-web
-* mybatis-plus-boot-starter
-* druid-spring-boot-starter
-* lombok
-
-```xml
-<dependencies>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-test</artifactId>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>com.baomidou</groupId>
-        <artifactId>mybatis-plus-boot-starter</artifactId>
-        <version>3.5.1</version>
-    </dependency>
-    <dependency>
-        <groupId>com.alibaba</groupId>
-        <artifactId>druid-spring-boot-starter</artifactId>
-        <version>1.2.8</version>
-    </dependency>
-    <dependency>
-        <groupId>org.projectlombok</groupId>
-        <artifactId>lombok</artifactId>
-    </dependency>
-</dependencies>
-```
-
-### 添加MySQL连接配置
-
-* 驱动名
-  -（SpringBoot2.0，内置JDBC5驱动）：com.mysql.jdbc.Driver
-  -（SpringBoot2.1以上，内置JDBC8驱动）：com.mysql.cj.jdbc.Driver
-* URL
-    - MySQL 5.7 ：jdbc:mysql://localhost:3316/olympians?characterEncoding=UTF-8&useSSL=false
-    - MySQL 8.0 ：jdbc:mysql://localhost:3316/olympians?userUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-
-否则会报时区错误
-
-
-创建HelloController测试项目是否正常
-
-```java
-@Controller
-public class HelloController {
-
-    @ResponseBody
-    @GetMapping("/hello")
-    public String hello(){
-        return "Hello Spring Boot";
-    }
-}
-```
-
-
-
-## 添加和配置Mapper
-
-在 Spring Boot 启动类中添加 @MapperScan 注解，扫描 Mapper 文件夹：
-
-```java
-@SpringBootApplication
-@MapperScan("cn.geekhall.hera.mapper")
-public class HeraApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(HeraApplication.class, args);
-    }
-
-}
-```
-
-### 设置自定义表名称
-
-可以给实体JavaBean类加上`@TableName("tablename")`注解来自定义实体Bean所对应的数据库表名称。
-
-### 设置自定义主键
-
-可以在实体Bean的属性前加上`@TableId(value="uid")` 注解来自定义主键
-
-### 设置主键自增
-
-`@TableId(value="uid", type=IdType.AUTO)`
-
-### @TableField
-
-指定属性所对应的字段名
-
-### @TableLogic
-
-指定属性所对应的字段为逻辑删除字段
-
-### 雪花算法
-
-雪花算法是由Twitter公布的分布式主键生成算法。它能够保证不同表的主键的不重复性，以及相同表的主键有序性。
-
-* 核心思想
-
-1bit 符号位 + 41bit毫秒时间戳 + 10bit机器ID（5bit数据中心+5bit机器id，可部署在1024个节点） + 12bit作为毫秒内流水号（毫秒内4096个ID）
-
-### Wrapper
-
-* Wrapper
-  - AbstractWrapper : 用于查询条件封装，生成sql的where条件
-    - QueryWrapper： 查询条件封装
-    - UpdateWrapper： 更新条件封装
-    - AbstractLambdaWrapper： 使用Lambda语法
-      - LambdaQueryWrapper： 用于Lambda语法使用的查询Wrapper
-      - LambdaUpdateWrapper： Lambda更新封装Wrapper
-
-
-  

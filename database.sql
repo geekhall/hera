@@ -80,3 +80,79 @@ insert into h_teacher (id, name, intro, career, level, sort, create_time) values
 (2, '李四', '多年丰富前端开发经验', '高级讲师', 1, 2, now());
 
 
+drop table  if EXISTS `h_product`;
+CREATE TABLE `h_product`  (
+                              `id` BIGINT(20) NOT NULL COMMENT '主键ID',
+                              `name` varchar(255) NOT NULL  COMMENT '商品名称',
+                              `description` varchar(255) NULL DEFAULT NULL COMMENT '商品描述',
+                              `brand` varchar(255) NULL DEFAULT NULL COMMENT '品牌',
+                              `price` decimal(17,2) DEFAULT NULL COMMENT '价格',
+                              `is_deleted` tinyint(1) default 0,
+                              PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8;
+delete from h_product;
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(1,'MacBookPro','Mac book pro', 'Apple', 15000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(2,'MacBookAir','Mac book air', 'Apple', 8000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(3,'iPhone13','iphone13 pro max', 'Apple', 9800.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(4,'iMac','iMac', 'Apple', 12000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(5,'iWatch','iWatch', 'Apple', 4000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(6,'MacMini','MacMini', 'Apple', 6000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(7,'AirPots','Air Pots Pro', 'Apple', 2000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(8,'Surface','Surface book', 'Microsoft', 8000.00);
+insert into h_product (`id`, `name`, `description`, `brand`, `price`) values(9,'Honor','Honor phone', 'Huawei', 2000.00);
+
+drop table if EXISTS `h_role`;
+create table `h_role`(
+                         `id` BIGINT(20) NOT NULL COMMENT '主键ID',
+                         `name` varchar(255) NOT NULL  COMMENT '角色名称',
+                         `description` varchar(255) NULL DEFAULT NULL COMMENT '角色描述',
+                         PRIMARY key (`id`) using BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8;
+delete from h_role;
+insert into h_role(`id`, `name`, `description`) values(1, 'Ares','战神');
+
+
+drop table if exists `h_weapon`;
+create table `h_weapon`(
+                           `id` BIGINT(20) NOT NULL COMMENT '主键ID',
+                           `name` varchar(255) NOT NULL  COMMENT '武器名称',
+                           `description` varchar(255) NULL DEFAULT NULL COMMENT '武器描述',
+                           PRIMARY key (`id`) using BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8;
+delete from h_weapon;
+insert into h_weapon(`id`,`name`,`description`) values(1, '雷神之锤','雷神Thor的锤子');
+
+
+DROP TABLE IF EXISTS h_player;
+CREATE TABLE h_player
+(
+    id BIGINT(20) NOT NULL COMMENT '主键ID',
+    name VARCHAR(30) NOT NULL  COMMENT '姓名',
+    age INT(11) NULL DEFAULT NULL COMMENT '年龄',
+    email VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
+    PRIMARY KEY (id) using BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8;
+
+DELETE FROM h_player;
+
+INSERT INTO h_player (id, name, age, email) VALUES
+                                                (1, 'Jone', 18, 'test1@geekhall.cn'),
+                                                (2, 'Jack', 20, 'test2@geekhall.cn'),
+                                                (3, 'Tom', 28, 'test3@geekhall.cn'),
+                                                (4, 'Sandy', 21, 'test4@geekhall.cn'),
+                                                (5, 'Billie', 24, 'test5@geekhall.cn');
+
+
+DROP TABLE IF EXISTS h_article;
+CREATE TABLE h_article
+(
+    id BIGINT(20) NOT NULL COMMENT '主键ID',
+    title VARCHAR(255) NOT NULL  COMMENT '标题',
+    subtitle VARCHAR(255) NOT NULL  COMMENT '副标题',
+    summary TINYTEXT NULL DEFAULT NULL COMMENT '摘要',
+    content TEXT NOT NULL  COMMENT '正文',
+    author_id BIGINT(20) NULL DEFAULT NULL COMMENT '作者ID',
+    create_date BIGINT(20) NULL DEFAULT NULL COMMENT '创建日期',
+    PRIMARY KEY (id) using BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8;
+
