@@ -48,6 +48,7 @@ public class Teacher extends Model<Teacher> {
 
     @ApiModelProperty("版本号")
     @Version
+    @TableField(fill = FieldFill.INSERT)
     private Integer version;
 
     @ApiModelProperty("创建时间")

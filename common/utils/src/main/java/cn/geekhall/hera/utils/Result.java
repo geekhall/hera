@@ -73,6 +73,9 @@ public class Result {
         this.data.put(key, value);
         return this;
     }
-
+    public Result data(Map<String, Object> data) {
+        this.data = data;
+        return this;
+    }
 
 }
