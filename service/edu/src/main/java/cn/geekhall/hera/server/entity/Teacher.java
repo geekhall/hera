@@ -28,22 +28,22 @@ public class Teacher extends Model<Teacher> {
     @ApiModelProperty("讲师ID")
     private Long id;
 
-    @ApiModelProperty("讲师姓名")
+    @ApiModelProperty(value = "讲师姓名", example = "张三")
     private String name;
 
-    @ApiModelProperty("讲师简介")
+    @ApiModelProperty(value = "讲师简介", example = "专注互联网")
     private String intro;
 
-    @ApiModelProperty("讲师资历，一句话说明讲师")
+    @ApiModelProperty(value = "讲师资历，一句话说明讲师",example = "十年大厂开发经验")
     private String career;
 
-    @ApiModelProperty("头衔 1-高级讲师 2-资深讲师 3-专家讲师 4-首席讲师")
+    @ApiModelProperty(value = "头衔 1-高级讲师 2-资深讲师 3-专家讲师 4-首席讲师", example = "1")
     private Integer level;
 
-    @ApiModelProperty("讲师头像")
+    @ApiModelProperty(value = "讲师头像", example = "")
     private String avatar;
 
-    @ApiModelProperty("排序")
+    @ApiModelProperty(value = "排序", example = "1")
     private Integer sort;
 
     @ApiModelProperty("版本号")
@@ -51,7 +51,7 @@ public class Teacher extends Model<Teacher> {
     @TableField(fill = FieldFill.INSERT)
     private Integer version;
 
-    @ApiModelProperty("创建时间")
+    @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 

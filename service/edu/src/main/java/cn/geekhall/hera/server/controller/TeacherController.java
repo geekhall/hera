@@ -7,10 +7,7 @@ import cn.geekhall.hera.server.service.impl.TeacherServiceImpl;
 import cn.geekhall.hera.utils.Result;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 //import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +35,7 @@ public class TeacherController {
 
     @ApiOperation("获取所有讲师信息")
     @ResponseBody
-    @RequestMapping("/all")
+    @GetMapping("/all")
     public Result all(){
         return Result.ok().data("items",teacherService.list() );
     }
@@ -54,11 +51,72 @@ public class TeacherController {
     public Result removeTeacher(@PathVariable("id") Long id){
 
         boolean result = teacherService.removeById(id);
-        if (result) {
-            return Result.ok();
-        } else {
-            return Result.error();
-        }
+        return result ? Result.ok() : Result.error();
+    }
+
+    /**
+     * 根据id查询讲师
+     * @param id 讲师id
+     * @return 执行结果
+     */
+    @ApiOperation("根据id查询讲师")
+    @ApiImplicitParam(name = "id", value = "讲师ID", required = true, paramType = "path", dataType = "Long")
+    @GetMapping("/query/{id}")
+    public Result querybyId(@PathVariable("id") Long id) {
+        Teacher teacher = teacherService.getById(id);
+        return Result.ok().data("teacher", teacher);
+    }
+
+    /**
+     * 修改讲师信息
+     * @param teacher 讲师对象
+     * @return 执行结果
+     */
+    @ApiModelProperty("修改讲师信息")
+    @PostMapping("/update")
+    public Result updateTeacher(@RequestBody Teacher teacher) {
+        boolean result = teacherService.updateById(teacher);
+        return result ? Result.ok() : Result.error();
+    }
+
+    /**
+     * 根据ID更新讲师信息
+     * @param id 讲师ID
+     * @param teacher 讲师对象
+     * @return 执行结果
+     */
+    @ApiModelProperty("根据ID更新讲师信息")
+    @PutMapping("{id}")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "讲师ID", required = true, paramType = "path", dataType = "Long"),
+            @ApiImplicitParam(name = "teacher", value = "讲师对象", required = true)
+    })
+    public Result updateById(@PathVariable("id") Long id, @RequestBody Teacher teacher){
+        teacher.setId(id);
+        boolean result = teacherService.updateById(teacher);
+        return result ? Result.ok() : Result.error();
+    }
+    /**
+     * 添加讲师信息
+     *
+     * @param teacher 讲师信息
+     *                     * Example：
+     *                       {
+     *                         "avatar": "",
+     *                         "career": "十年大厂开发经验",
+     *                         "intro": "专注互联网",
+     *                         "level": 1,
+     *                         "name": "银八老师",
+     *                         "sort": 1
+     *                       }
+     * @return 执行结果
+     */
+    @ApiOperation("添加讲师")
+    @PostMapping("/add")
+    @ApiImplicitParam(name = "teacher", value = "讲师信息", required = true)
+    public Result addTeacher(@RequestBody Teacher teacher){
+        boolean result = teacherService.save(teacher);
+        return result ? Result.ok() : Result.error();
     }
 
 
