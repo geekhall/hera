@@ -5,10 +5,14 @@
 
 管理依赖版本和公共依赖，使用pom类型管理依赖的版本
 ```xml
-<packaging>pom</packaging>
-<dependencyManagement>
- 
-</dependencyManagement>
+<project>
+  <packaging>pom</packaging>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>...</dependency>
+    </dependencies>
+  </dependencyManagement>
+</project>
 ```
 
 ### 子模块
@@ -275,9 +279,9 @@ MybatisPlus3.2.0版本删除，官方推荐使用第三方工具分析
 
 
 
-### 添加Swagger支持
+## 添加Swagger支持
 
-添加springfox依赖
+### 添加springfox依赖
 ```xml
 <dependency>
     <groupId>io.springfox</groupId>
@@ -286,9 +290,15 @@ MybatisPlus3.2.0版本删除，官方推荐使用第三方工具分析
 </dependency>
 ```
 
-启动类添加`@EnableOpenApi` 注解
+### 启动类添加`@EnableOpenApi` 注解
 
-spring配置文件添加：
+### 解决空指针Bug：
+
+这里要注意下有个坑，Swagger3.0.0与Spring Boot 2.6.x 默认情况下会有一个兼容性的问题，
+启动后会报空指针异常，
+`Failed to start bean 'documentationPluginsBootstrapper' in spring data rest`
+
+解决方法是在配置文件中添加如下内容：
 ```yaml
 spring:
   mvc:
@@ -298,6 +308,48 @@ spring:
       matching-strategy: ant_path_matcher # to resolve spring fox null pointer problem
 ```
 
-访问URL: localhost:8888/swagger-ui/index.html
+然后，浏览器访问URL: localhost:8888/swagger-ui/index.html就可以看到结果了
 
+### 另一种方式
+
+另一个是稍微复杂点的方式，但更加使用：将swagger封装在一个base子模块中，
+
+然后在其他模块引入该子模块的依赖即可。这样做的好处是可以分组并且代码重复率低。
+
+在base模块中添加`SwaggerConfiguration`和`SwaggerProperties`两个配置类即可。
+
+然后在使用swagger的模块中引入base依赖，再通过配置文件来修改swagger信息。
+
+
+## 统一返回结果对象
+
+成功示例：
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "message": "成功",
+  "data": {
+    "total": 10,
+    "rows": [
+      {
+        "id": "001",
+        "name": "GeekHall",
+        "description": "走的很慢，但从不后退"
+      }
+    ]
+  }
+}
+```
+
+失败示例：
+```json
+{
+  "success": false,
+  "code": 20001,
+  "message": "失败",
+  "data": {}
+}
+```
 

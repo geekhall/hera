@@ -12,6 +12,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>base</module>
+        <module>utils</module>
     </modules>
     <artifactId>common</artifactId>
 
