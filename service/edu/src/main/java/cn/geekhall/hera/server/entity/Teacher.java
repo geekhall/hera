@@ -1,6 +1,6 @@
 package cn.geekhall.hera.server.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -47,14 +47,18 @@ public class Teacher extends Model<Teacher> {
     private Integer sort;
 
     @ApiModelProperty("版本号")
+    @Version
     private Integer version;
 
     @ApiModelProperty("创建时间")
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @ApiModelProperty("更新时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+    @TableLogic
     @ApiModelProperty("逻辑删除")
     private Boolean deleted;
 

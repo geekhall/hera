@@ -18,6 +18,12 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  mvc:
+    pathmatch:
+      # Failed to start bean 'documentationPluginsBootstrapper' in spring data rest
+      # springfox3.0.0 has compatibility problem with spring boot 2.6.x
+      matching-strategy: ant_path_matcher # to resolve spring fox null pointer problem
+
 
 
 mybatis-plus:
@@ -28,3 +34,13 @@ mybatis-plus:
       logic-not-delete-value: 0   # 逻辑未删除值（默认为0）
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # Mybatis日志
+
+
+# ===== 自定义swagger配置 ===== #
+swagger:
+  enable: true     # 配置是否启用Swagger
+  application-name: ${spring.application.name}
+  application-version: 1.0
+  application-description: springfox swagger 3.0整合Demo
+  try-host: http://localhost:${server.port}
+  group-name: edu

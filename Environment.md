@@ -25,7 +25,7 @@ service：
   - ucenter：会员API接口
   - vod：视频点播API接口
 
-## 后台
+## 后台数据库
 
 ### DB SQL
 参考`database.sql`文件
@@ -43,7 +43,9 @@ service：
 
 否则会报时区错误
 
-### 配置MybatisPlus 的自动填充功能
+## 配置MybatisPlus
+
+### 配置MybatisPlus 自动填充功能
 
 数据库添加插入和更新字段：
 ```sql
@@ -206,7 +208,12 @@ public class UserMetaObjectHandler implements MetaObjectHandler {
 
 MybatisPlus3.2.0版本删除，官方推荐使用第三方工具分析
 
+### MP乐观锁
 
+数据库添加version字段，实体bean加上对应属性并标注`@Version`
+```java
+
+```
 ### 创建代码生成模块generator
 
 创建Maven新模块generator，添加如下依赖项：
@@ -264,3 +271,33 @@ MybatisPlus3.2.0版本删除，官方推荐使用第三方工具分析
 ```
 
 ### 添加Generator代码
+
+
+
+
+### 添加Swagger支持
+
+添加springfox依赖
+```xml
+<dependency>
+    <groupId>io.springfox</groupId>
+    <artifactId>springfox-boot-starter</artifactId>
+    <version>${springfox-boot.version}</version>
+</dependency>
+```
+
+启动类添加`@EnableOpenApi` 注解
+
+spring配置文件添加：
+```yaml
+spring:
+  mvc:
+    pathmatch: 
+      # Failed to start bean 'documentationPluginsBootstrapper' in spring data rest
+      # springfox3.0.0 has compatibility problem with spring boot 2.6.x
+      matching-strategy: ant_path_matcher # to resolve spring fox null pointer problem
+```
+
+访问URL: localhost:8888/swagger-ui/index.html
+
+
