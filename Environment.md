@@ -354,3 +354,56 @@ spring:
 ```
 
 ## 条件查询（整合ElasticSearch）
+
+## 日志
+
+### 设置和调整日志级别
+
+```yaml
+logging:
+  level:
+    root: info
+    
+```
+
+日志级别包括： OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL
+
+### 使用LogBack日志工具
+
+SpringBoot 默认配置好了日志，且使用 Logback 作为默认日志实现框架， SpringBoot 也可以切换至其他框架（不做介绍，意义不大）
+
+```yaml
+
+logging:
+  # 日志级别设置
+  level:
+    root: info   # 修改默认的日志级别，默认INFO，  TRACE < DEBUG < INFO < WARN < ERROR， SpringBoot还可以额外设置两个FATAL和OFF
+    cn.geekhall.hera.server.controller: info # 设置某个包下面的日志级别。
+  # 日志文件配置
+  file:
+    path: ./log                 # 日志文件所在位置
+    name: ./log/hera_test.log   # 日志文件名以及路径（默认项目根路径，文件名默认为 spring.log) ，与path同时指定时只有name生效
+  # 日志格式配置
+  # %d ：表示日期时间，
+  # %thread ：表示线程名，
+  # %-5level ：级别从左显示5个字符宽度
+  # %logger{50} ：表示logger名字最长50个字符，否则按照句点分割。
+  # %msg ：日志消息，
+  # %n ：是换行符
+  pattern:
+    console: '%d{yyyy-MM-dd} -- [%thread] -- %-5level -- %logger{50} -- %msg%n' # 控制台输出格式
+    file: '%d{yyyy-MM-dd} == [%thread] == %-5level == %logger{50} == %msg%n'    # 文件输出格式
+    
+```
+
+### 通过日志框架原生配置文件进行定制化配置
+
+| 日志框架 | 定制化配置文件 |
+| ---- | ---- |
+| Logback | logback-spring.xml, logback-spring.groovy, logback.xml， logback.groovy |
+| Log4j2 | log4j2-spring.xml, log4j2.xml |
+| JDK(Java Util Logging) | logging.properties |
+
+PS：以 Logback 为例，若使用 logback.xml ，则直接就被日志框架识别了；若使用 logback-spring.xml ，
+则日志框架就不直接加载日志的配置项，由 SpringBoot 解析日志配置，可以使用 SpringBoot 的高级 Profile 功能
+

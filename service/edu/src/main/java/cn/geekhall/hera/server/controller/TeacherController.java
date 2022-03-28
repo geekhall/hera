@@ -1,6 +1,7 @@
 package cn.geekhall.hera.server.controller;
 
 
+import cn.geekhall.hera.base.exception.HeraException;
 import cn.geekhall.hera.server.entity.Teacher;
 import cn.geekhall.hera.server.entity.vo.TeacherQuery;
 import cn.geekhall.hera.server.service.impl.TeacherServiceImpl;
@@ -9,6 +10,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.*;
 //import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +33,8 @@ import java.util.Map;
 @RequestMapping("/teacher")
 public class TeacherController {
 
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private TeacherServiceImpl teacherService;
 
@@ -37,6 +42,16 @@ public class TeacherController {
     @ResponseBody
     @GetMapping("/all")
     public Result all(){
+        logger.trace("############============ Test Trace log ==========##########");
+        logger.debug("############============ Test Debug log ==========##########");
+        logger.info("############============ Test Info log ==========##########");
+        logger.warn("############============ Test Warn log ==========##########");
+        logger.error("############============ Test Error log ==========##########");
+        try {
+            int i = 10 / 0;
+        } catch (Exception e) {
+            throw new HeraException(20002, "除0了");
+        }
         return Result.ok().data("items",teacherService.list() );
     }
 
